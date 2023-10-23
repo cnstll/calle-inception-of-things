@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Define variables
-VAGRANT_BOX="generic/alpine38"
-SSH_PUBLIC_KEY="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC7pT5mgfXYUMlQf3hFjWCiVnE42HhXfZia8z+Nrsomw5sBXh1OCs+UVi3NiBPg2g/ipDdRj0pRTH/S+M6iPEi3wTEfoLAB+FFXB2cfOIph7PWwwgLflQVP1STMTDT0Wvm/uxlm5hSfqz7bPB9OarGznfKMjbRT531u4Xu+v9zu5NKc42wO6w9TUfkDaA8ZmimpIpwu5bvIugynpKkwTAQ007LZw+OSb/di7P5Fk0+G6soYlxzfu1ixSoUJU9ZHv9XypDBcbmXsET2Ce3zym11yRCpDRvTAmHlBmSWlPAgYkW3PfHxB1gH6YIRfieGZH79kwILSPwepEWN2+MolFopNwti8wuK8peLxxPfP27iJ8sZV4C8VrSMWcEMQ124ym/jZeHnFcpvwxMQfx0R3Kzv4Dko9mZc3hJF272zdPvZb4ZRjX9ZEiYwQoOkStchZfldOebSwcoWlmZRaLlEH2IqG4sONZiGRFMf2zMQotMUp1gi1ipptFcwaed6YPGa+6Gc= constantalle@MacBook-Pro-de-Constant.local"
+VAGRANT_BOX="hashicorp/bionic64"
+SSH_PUBLIC_KEY="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5pzrve7SK7H6qxb/Ya/feq9750aF7JK8sluUVacP1vCwTD8TFbTGF2J4CbC+GRH0kPA+TXdwkS/zreFDAbhsPdmq784qFMbCYqNG2MNpsPbUd7rXy6Bpoi6t/RPThIAgL4uEl3YYG8BCWEAXNA+6zi7a2CRpQiFV+Hv+Z3OoLR6z7LiaRu4s2CTNSwkue4T5bbNEPqVZmPPRUV/HEVNpaP3JdUmnRe4nrM43l66/zgemRztgevCfFmcFSViEanjB0B/ZktkhtfkDEAWXO0HwAO12b/jidkIMQJGZEb9ONQrJTs7nQ5m9tWYfVK/qlpfuR9yfq/aiYo1SKFi6pUk8D calle@calle-VirtualBox"
 
 cat <<EOL > Vagrantfile
 Vagrant.configure("2") do |config|
   config.vm.define "calleS" do |server|
     server.vm.box = "$VAGRANT_BOX"
-    server.vm.network "private_network", type: "dhcp"
+    server.vm.hostname = "calleS"
     server.vm.network "private_network", type: "static", ip: "192.168.56.110"
     server.vm.provider "virtualbox" do |vb|
       vb.memory = 512
@@ -23,8 +23,8 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "calleSW" do |server_worker|
+    server_worker.vm.hostname = "calleSW"
     server_worker.vm.box = "$VAGRANT_BOX"
-    server_worker.vm.network "private_network", type: "dhcp"
     server_worker.vm.network "private_network", type: "static", ip: "192.168.56.111"
     server_worker.vm.provider "virtualbox" do |vb|
       vb.memory = 512
