@@ -16,14 +16,7 @@ Vagrant.configure("2") do |config|
       vb.memory = 512
       vb.cpus = 1
     end
-    server.vm.provision "shell", args: vagrant_config["ssh_private_key_path"], inline: <<-SHELL
-      # Install K3s in controller mode
-      #curl -sfL https://get.k3s.io | sh -
-      echo "Hello from calleS"
-      echo "private_key_path used : $1"
-      # Copy Kubeconfig to the local machine
-      #cp /etc/rancher/k3s/k3s.yaml /vagrant/k3s-controller.yaml
-    SHELL
+    server.vm.provision "shell", path: vagrant_config["server"]["script_path"]
   end
 
   config.vm.define "calleSW" do |server_worker|
@@ -38,11 +31,7 @@ Vagrant.configure("2") do |config|
       vb.memory = 512
       vb.cpus = 1
     end
-    server_worker.vm.provision "shell", inline: <<-SHELL
-      # Install K3s in agent mode
-      #curl -sfL https://get.k3s.io | K3S_URL=https://192.168.56.110:6443 sh -
-      echo "Hello from calleSW"
-    SHELL
+    # server_worker.vm.provision "shell", path: vagrant_config["server_worker"]["script_path"]
   end
 
   # config.vm.provision "shell", args: vagrant_config['ssh_public_key'], inline: <<-SHELL
