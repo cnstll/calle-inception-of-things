@@ -1,0 +1,1 @@
+curl -sfL https://get.k3s.io | K3S_URL=http://192.168.56.110 K3S_TOKEN=12345 sh -s
