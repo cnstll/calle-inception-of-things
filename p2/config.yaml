@@ -1,0 +1,8 @@
+box: 'generic/alpine318'
+server:
+  ip : '192.168.56.110'
+  script_path: 'scripts/setup.sh'
+
+# Define the applications to deploy
+applications:
+  - path: "/vagrant/app1.yaml"
