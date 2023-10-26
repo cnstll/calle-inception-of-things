@@ -3,7 +3,6 @@ vagrant destroy -fg calleS calleSW
 echo "...Done ✔"
 echo
 rm -rf .shared/
-mkdir .shared/
 echo "Booting VMs..."
 vagrant up
 echo "...Done ✔"
