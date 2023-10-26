@@ -7,12 +7,10 @@ Vagrant.configure("2") do |config|
   config.vm.define "calleS" do |server|
     server.vm.box = vagrant_config["box"]
     server.vm.hostname = "calleS"
-    server.vm.synced_folder ".shared/", "/vagrant_shared/"
-    server.vm.network "private_network", ip: vagrant_config["server"]["ip"]
+    server.vm.synced_folder ".shared/", "/vagrant_shared/", create: true
+    server.vm.network "private_network", type: "static", ip: vagrant_config["server"]["ip"], netmask: "255.255.255.0"
     server.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--name", "calleS"]
-      vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-      vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
       vb.cpus = 1
       vb.memory = 1024
     end
@@ -22,14 +20,12 @@ Vagrant.configure("2") do |config|
   config.vm.define "calleSW" do |server_worker|
     server_worker.vm.box = vagrant_config["box"]
     server_worker.vm.hostname = "calleSW"
-    server_worker.vm.network "private_network", ip: vagrant_config["server_worker"]["ip"]
-    server_worker.vm.synced_folder ".shared/", "/vagrant_shared/"
+    server_worker.vm.network "private_network", type: "static", ip: vagrant_config["server_worker"]["ip"], netmask: "255.255.255.0"
+    server_worker.vm.synced_folder ".shared/", "/vagrant_shared/", create: true
     server_worker.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--name", "calleSW"]
-      vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-      vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
       vb.cpus = 1
-      vb.memory = 512
+      vb.memory = 1024
     end
     server_worker.vm.provision "shell", path: vagrant_config["server_worker"]["script_path"]
   end
