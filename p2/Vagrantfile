@@ -1,20 +1,18 @@
 require 'yaml'
 
 current_dir = File.dirname(File.expand_path(__FILE__))
-vagrant_config = YAML.load_file("#{current_dir}/config.yaml")
+vagrant_config = YAML.load_file("#{current_dir}/confs/config.yaml")
 
 Vagrant.configure("2") do |config|
   config.vm.define "calleS" do |server|
     server.vm.box = vagrant_config["box"]
     server.vm.hostname = "calleS"
-    server.vm.network "private_network", ip: vagrant_config["server"]["ip"]
+    server.vm.network "private_network", ip: vagrant_config["server"]["ip"], netmask: "255.255.255.0"
     server.vm.provider "virtualbox" do |vb|
-      vb.name = "calleS"
-      vb.memory = 1024
+      vb.customize ["modifyvm", :id, "--name", "calleS"]
       vb.cpus = 1
+      vb.memory = 1024
     end
-  config.ssh.insert_key = false
+    server.vm.provision "shell", path: vagrant_config["server"]["script_path"]
   end
-
-  config.vm.provision "shell", privileged: false, path: vagrant_config["server"]["script_path"] 
 end
