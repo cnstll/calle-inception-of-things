@@ -1,15 +1,29 @@
-# Install K3s
-  echo '###Installing K3S..'
-  SERVER_IP="192.168.56.110"
-  export INSTALL_K3S_EXEC="server --node-ip ${SERVER_IP} --write-kubeconfig-mode 644"
-  curl -sfL https://get.k3s.io | sh -s -
+SERVER_IP="192.168.56.110"
+# Env variables that will be used for the installation of k3s
+export INSTALL_K3S_EXEC="server --node-ip ${SERVER_IP} --flannel-iface eth1 --write-kubeconfig-mode 644"
+# Downloading and installing k3s
+curl -sfL https://get.k3s.io | sh -s -
 
-   # Wait for K3s to start and create k3s.yaml
-   # Set the KUBECONFIG environment variable
-  export KUBECONFIG="/etc/rancher/k3s/k3s.yaml"
-
-   while [ ! -f ${KUBECONFIG} ]; do
+# Waiting for control to be fully ready in order to collect its config and its token
+# mkdir -v .kube/
+KUBE_CONFIG="/etc/rancher/k3s/k3s.yaml"
+while [ ! -f ${KUBE_CONFIG} ]; do
     sleep 2
     echo "Waiting for kubeconfig creation..."
-  done
-  echo "K3s installation and configuration completed."
+done
+# cp -v /etc/rancher/k3s/k3s.yaml .kube/
+
+# Collecting controller node token that will be passed to the agent
+# NODE_TOKEN="/var/lib/rancher/k3s/server/node-token"
+# TOKEN=$(cat ${NODE_TOKEN})
+# cp ${NODE_TOKEN} /vagrant_shared/
+
+# Add the alias for the vagrant user
+echo 'alias k="kubectl"' >> /home/vagrant/.profile
+
+# Source the .profile for the vagrant user
+su - vagrant -c "source /home/vagrant/.profile"
+
+su - vagrant -c "export KUBECONFIG=${KUBE_CONFIG}"
+
+echo "Server configuration done ✔"
