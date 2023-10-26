@@ -10,4 +10,10 @@ export K3S_TOKEN=${CONTROL_NODE_TOKEN}
 # Downloading and installing k3s
 curl -sfL https://get.k3s.io | sh -s -
 
+# Add the alias for the vagrant user
+echo 'alias k="kubectl"' >> /home/vagrant/.profile
+
+# Source the .profile for the vagrant user
+su - vagrant -c "source /home/vagrant/.profile"
+
 echo "Server worker configuration done ✔"

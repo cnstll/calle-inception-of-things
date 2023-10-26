@@ -18,4 +18,10 @@ NODE_TOKEN="/var/lib/rancher/k3s/server/node-token"
 TOKEN=$(cat ${NODE_TOKEN})
 cp ${NODE_TOKEN} /vagrant_shared/
 
+# Add the alias for the vagrant user
+echo 'alias k="kubectl"' >> /home/vagrant/.profile
+
+# Source the .profile for the vagrant user
+su - vagrant -c "source /home/vagrant/.profile"
+
 echo "Server configuration done ✔"
