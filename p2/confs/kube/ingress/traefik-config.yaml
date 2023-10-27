@@ -4,9 +4,9 @@ metadata:
   name: my-ingress
   annotations:
     traefik.ingress.kubernetes.io/rule-type: PathPrefixStrip
-    # traefik.ingress.kubernetes.io/frontend.entryPoints: web
 spec:
   rules:
+  # Routing based on host name
     - host: app1.com
       http:
         paths:
@@ -39,6 +39,7 @@ spec:
                 port:
                   number: 80
 
+# Default to app3 when no host is entered
     - http:
         paths:
           - path: /

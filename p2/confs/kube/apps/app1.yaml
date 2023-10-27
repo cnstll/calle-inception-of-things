@@ -23,6 +23,10 @@ spec:
         env:
         - name: MESSAGE
           value: "Hello from app1."
+        - name: KUBERNETES_NAMESPACE
+          value: "K3s"
+        - name: KUBERNETES_NODE_NAME
+          value: "App1"
 ---
 apiVersion: v1
 kind: Service
