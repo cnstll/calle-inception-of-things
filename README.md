@@ -13,4 +13,8 @@ A **Vagrant box** is a pre-configured, reusable virtual machine image that serve
 
 ## Sources
 - Networking modes for a network of VMs : [documentation from virtualbox](https://www.virtualbox.org/manual/ch06.html)
-
+- Presentation of a controller/agent setup over 2 vagrant VMs: [video](https://www.youtube.com/watch?v=JLnjMCRLcCo )
+- Simple sample vagrantfile : [code](https://gitlab.com/vshn/demos/demo-k3s-in-vagrant/-/blob/master/Vagrantfile?ref_type=heads)
+- Rather complex vagrantfile : [code](https://github.com/biggers/vagrant-kubernetes-by-k3s/blob/master/Vagrantfile)
+- K3s over Alpine Linux : [article](https://draghici.net/2020/06/09/alpine-and-k3s-a-lightweight-kubernetes-experience/)
+- Some more K3s over Alpine Linux : [article](https://teada.net/k3s-on-alpine-linux/)
