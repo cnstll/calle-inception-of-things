@@ -13,7 +13,7 @@ echo "Installed helm chart for argocd ✔"
 
 echo "Waiting for cluster to be ready..."
 EXPECTED_NUM_OF_RUNNING_POD=7
-CURRENT_PODS_RUNNING=$(kubectl get pods -n argocd | grep " Running " | wc -l 2&1> "/dev/null")
+CURRENT_PODS_RUNNING=$(kubectl get pods -n argocd | grep " Running " | wc -l > /dev/null 2>&1)
 while [[ ${CURRENT_PODS_RUNNING} -ne ${EXPECTED_NUM_OF_RUNNING_POD} ]]; do
         sleep 5
         echo "Probing current state of cluster.."
