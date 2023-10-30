@@ -161,4 +161,4 @@ cython_debug/
 
 
 .vagrant/
-charts/**/charts
+*/charts/**/charts
