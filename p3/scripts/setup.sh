@@ -70,7 +70,7 @@ fi
 # Check if helm is installed
 if command -v helm &> /dev/null; then
     echo "helm is already installed ✔"
-    echo "$(helm --version)"
+    echo "$(helm version)"
 else
     curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
     sudo apt-get install apt-transport-https --yes
@@ -84,5 +84,3 @@ else
         exit 1
     fi
 fi
-#sudo groupadd docker
-# sudo usermod -a -G docker calle
