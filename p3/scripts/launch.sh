@@ -1,5 +1,6 @@
 # Create and launch cluster with k3d
-k3d cluster create IoT
+sudo chown -R $USER $HOME/.kube
+k3d cluster create cluster-iot
 kubectl create namespace dev
 helm repo add argo-cd https://argoproj.github.io/argo-helm
 helm dep update confs/charts/argo-cd/
