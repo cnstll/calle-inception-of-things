@@ -1,5 +1,7 @@
+#!/bin/bash
 # Check if docker is installed
-if command -v docker &> /dev/null; then
+output="$(which docker)"
+if [ -z "$output" ]; then
     echo "Docker is already installed ✔"
     echo "$(docker --version)"
 else
@@ -31,7 +33,8 @@ fi
 
 # Install kubectl
 # Check if k3d is installed
-if command -v k3d &> /dev/null; then
+output="$(which k3d)"
+if [ -z "$output" ]; then
     echo "k3d and k3s are already installed ✔"
     echo "$(k3d --version)"
 else
