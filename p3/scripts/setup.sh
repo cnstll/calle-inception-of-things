@@ -45,12 +45,11 @@ else
         exit 1
     fi
 fi
+
 # Install kubectl
 # Check if kubectl is installed
-if command -v kubectl &> /dev/null; then
-    echo "kubectl is already installed ✔"
-    echo "$(kubectl version --client | grep "Client Version")"
-else
+output="$(which kubectl)"
+if [ -z "$output" ]; then
     # Download binary
     echo "kubectl is not installed. Installing it now..."
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -65,14 +64,16 @@ else
         echo "Failed to install kubectl. Please retry."
         exit 1
     fi
+else
+    echo "kubectl is already installed ✔"
+    echo "$(kubectl version --client | grep "Client Version")"
 fi
+
 # Install helm
 # Check if helm is installed
-if command -v helm &> /dev/null; then
-    echo "helm is already installed ✔"
-    echo "$(helm version)"
-else
-    curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+output="$(which helm)"
+if [ -z "$output" ]; then
+ curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
     sudo apt-get install apt-transport-https --yes
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
     sudo apt-get update
@@ -83,4 +84,7 @@ else
         echo "Failed to install helm. Please retry."
         exit 1
     fi
+else
+    echo "helm is already installed ✔"
+    echo "$(helm version)"
 fi
