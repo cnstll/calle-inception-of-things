@@ -1,11 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: wil-playground
+  name: development
+  namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  project: development
   source:
     repoURL: https://github.com/cnstll/inception-of-things.git
     path: p3/confs/app/

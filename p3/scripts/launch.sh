@@ -1,13 +1,15 @@
+#!/bin/bash
+# sudo chown -R $USER $HOME/.kube
+
 # Create and launch cluster with k3d
-whoami
-sudo chown -R $USER $HOME/.kube
-k3d cluster create cluster-iot
+k3d cluster create cluster-iot 
 echo "cluster launched ✔"
-kubectl create namespace dev
+sleep 10
+
+# Download and install argocd
 helm repo add argo-cd https://argoproj.github.io/argo-helm
 helm dep update confs/charts/argo-cd/
 echo "Downloaded helm chart for argocd ✔"
-# sudo helm install argo-cd confs/charts/argo-cd/
 helm install --create-namespace --namespace argocd argo-cd confs/charts/argo-cd/
 echo "Installed helm chart for argocd ✔"
 
@@ -21,10 +23,22 @@ while [[ ${CURRENT_PODS_RUNNING} -ne ${EXPECTED_NUM_OF_RUNNING_POD} ]]; do
         echo "CLUSTER INFO: ${CURRENT_PODS_RUNNING} pods out of ${EXPECTED_NUM_OF_RUNNING_POD} are running..." 
 done
 echo "Apps are ready ✔"
+
+# Deploying different manifest
+kubectl create namespace dev
+kubectl apply --namespace argocd -f confs/app-project.yaml
 kubectl apply --namespace argocd -f confs/wils-application.yaml
 
-echo "Password: $(kubectl get secret --namespace argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
-kubectl port-forward --namespace argocd svc/argo-cd-argocd-server 8080:443
-# Apply Manifests
-# Create a github repository and add manifests for wils app
-# Get wils app from dockerhub
+# Changing admin password to "password"
+kubectl -n argocd patch secret argocd-secret \
+  -p '{"stringData": {
+    "admin.password": "$2a$10$rRyBsGSHK6.uc8fntPwVIuLVHgsAhAX7TcdrqW/RADU0uh7CaChLa",
+    "admin.passwordMtime": "'$(date +%FT%T%Z)'"
+  }}'
+
+
+echo "Login to argo: admin"
+echo "Password to argo: password"
+echo "Enter the following commands into 2 distinct tty to access the different services:"
+echo "kubectl port-forward --namespace argocd svc/argo-cd-argocd-server 8080:443"
+echo "kubectl port-forward --namespace dev service/wil-playground 8888:8888"
