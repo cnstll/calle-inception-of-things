@@ -2,10 +2,7 @@
 # Check if docker is installed
 output="$(which docker)"
 if [ -z "$output" ]; then
-    echo "Docker is already installed ✔"
-    echo "$(docker --version)"
-else
-    echo "Docker is not installed. Installing..."
+ echo "Docker is not installed. Installing..."
 
 # Add Docker's official GPG key:
     sudo apt-get update
@@ -29,15 +26,14 @@ else
         echo "Failed to install Docker properly. Please retry."
         exit 1
     fi
+else
+    echo "Docker is already installed ✔"
+    echo "$(docker --version)"
 fi
 
-# Install kubectl
 # Check if k3d is installed
 output="$(which k3d)"
 if [ -z "$output" ]; then
-    echo "k3d and k3s are already installed ✔"
-    echo "$(k3d --version)"
-else
     # Install k3d with wget
     echo "k3d is not installed. Installing it now..."
     wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
@@ -47,6 +43,9 @@ else
         echo "Failed to install k3d. Please retry."
         exit 1
     fi
+else
+    echo "k3d and k3s are already installed ✔"
+    echo "$(k3d --version)"
 fi
 
 # Install kubectl
