@@ -8,14 +8,10 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   description: wil playground
-  # Allow manifests to deploy from any Git repos
+  # Allow manifests to deploy from the github repo of the project
   sourceRepos:
-  - '*'
+  - 'https://github.com/cnstll/inception-of-things.git'
   # Only permit applications to deploy to the guestbook namespace in the same cluster
   destinations:
   - namespace: dev
     server: https://kubernetes.default.svc
-  # Deny all cluster-scoped resources from being created, except for Namespace
-  clusterResourceWhitelist:
-  - group: '*'
-    kind: '*'
